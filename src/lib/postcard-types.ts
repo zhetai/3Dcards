@@ -62,7 +62,7 @@ export type CompleteContentPackage = z.infer<typeof CompleteContentPackageSchema
 
 // Remotion 组件 Props
 export const Postcard3DPropsSchema = z.object({
-  contentPackage: CompleteContentPackageSchema,
+  contentPackage: CompleteContentPackageSchema.optional(),
 });
 
 export type Postcard3DProps = z.infer<typeof Postcard3DPropsSchema>;

@@ -1,4 +1,4 @@
-import type { CompleteContentPackage } from "./postcard-types";
+import type { CompleteContentPackage, ContentMetadata, CoreContent } from "./postcard-types";
 import * as fs from "fs/promises";
 import * as path from "path";
 
@@ -59,12 +59,17 @@ export class PlatformPublisher {
    * 生成发布报告
    */
   async generatePublishReport(outputDir: string): Promise<string> {
-    const report = {
+    const report: {
+      metadata: ContentMetadata;
+      content: CoreContent;
+      platforms: Record<string, unknown>;
+      videoPath: string;
+    } = {
       metadata: this.contentPackage.metadata,
       content: this.contentPackage.coreContent,
       platforms: {},
       videoPath: this.videoPath,
-    } as any;
+    };
 
     if (this.contentPackage.metadata.targetPlatforms.includes("douyin")) {
       report.platforms.douyin = this.getDouyinPublishInfo();

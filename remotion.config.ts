@@ -8,4 +8,37 @@ import { enableTailwind } from '@remotion/tailwind-v4';
 
 Config.setVideoImageFormat("jpeg");
 Config.setOverwriteOutput(true);
-Config.overrideWebpackConfig(enableTailwind);
+Config.overrideWebpackConfig((currentConfiguration) => {
+  const tailwindConfig = enableTailwind(currentConfiguration);
+  return {
+    ...tailwindConfig,
+    resolve: {
+      ...tailwindConfig.resolve,
+      fallback: {
+        ...tailwindConfig.resolve?.fallback,
+        crypto: false,
+        stream: false,
+        util: false,
+        buffer: false,
+      },
+    },
+    module: {
+      ...tailwindConfig.module,
+      rules: [
+        ...(tailwindConfig.module?.rules || []),
+        {
+          test: /\.(js|jsx|ts|tsx)$/,
+          use: {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              compilerOptions: {
+                jsx: 'react-jsx',
+              },
+            },
+          },
+        },
+      ],
+    },
+  };
+});

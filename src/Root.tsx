@@ -4,8 +4,7 @@ import { AIVideo, aiVideoSchema } from "./components/AIVideo";
 import { Postcard3D, postcard3DSchema } from "./components/Postcard3D";
 import { FPS, INTRO_DURATION } from "./lib/constants";
 import { getTimelinePath, loadTimelineFromFile } from "./lib/utils";
-import { PostcardContentGenerator } from "../cli/postcard-service";
-import { CompleteContentPackageSchema } from "./lib/postcard-types";
+import { PostcardContentLoader } from "./lib/postcard-loader";
 
 export const RemotionRoot: React.FC = () => {
   const staticFiles = getStaticFiles();
@@ -61,12 +60,10 @@ export const RemotionRoot: React.FC = () => {
             width={1080}
             height={1920}
             schema={postcard3DSchema}
-            defaultProps={{
-              contentPackage: null as any,
-            }}
-            calculateMetadata={async ({ props }) => {
-              const generator = new PostcardContentGenerator("");
-              const contentPackage = await generator.loadContentPackage(
+            defaultProps={{} as { contentPackage?: import("./lib/postcard-types").CompleteContentPackage }}
+            calculateMetadata={async ({ props }: { props: { contentPackage?: import("./lib/postcard-types").CompleteContentPackage } }) => {
+              const loader = new PostcardContentLoader();
+              const contentPackage = await loader.loadContentPackage(
                 `public/${filepath}`
               );
 
