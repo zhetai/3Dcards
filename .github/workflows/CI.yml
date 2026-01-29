@@ -26,7 +26,7 @@ jobs:
           cache: 'npm'
 
       - name: 安装依赖
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       - name: TypeScript 类型检查
         run: npm run build
@@ -48,7 +48,7 @@ jobs:
           cache: 'npm'
 
       - name: 安装依赖
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       - name: ESLint 检查
         run: npm run lint
@@ -74,7 +74,7 @@ jobs:
           cache: 'npm'
 
       - name: 安装依赖
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       - name: 运行测试
         run: npm test || echo "No tests configured"
@@ -96,7 +96,7 @@ jobs:
           cache: 'npm'
 
       - name: 安装依赖
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       - name: 生成覆盖率报告
         run: |
@@ -128,7 +128,7 @@ jobs:
           cache: 'npm'
 
       - name: 安装依赖
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       - name: 运行 npm audit
         run: npm audit --audit-level=moderate
@@ -157,7 +157,7 @@ jobs:
           cache: 'npm'
 
       - name: 安装依赖
-        run: npm ci
+        run: npm install --legacy-peer-deps
 
       - name: 构建 Remotion 项目
         run: npm run build
