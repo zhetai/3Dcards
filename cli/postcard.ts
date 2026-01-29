@@ -42,7 +42,7 @@ class PostcardCLI {
       const spinner = ora("正在生成完整内容包...").start();
       const contentPackage = await this.generator.generateCompletePackage(
         inspiration,
-        platforms
+        platforms,
       );
       spinner.succeed(chalk.green("✅ 内容包生成成功！"));
 
@@ -50,26 +50,34 @@ class PostcardCLI {
       this.displayContent(contentPackage);
 
       // 6. 保存内容包
-      const outputDir = options.outputDir || path.join(process.cwd(), "public", "content", "postcards");
+      const outputDir =
+        options.outputDir ||
+        path.join(process.cwd(), "public", "content", "postcards");
       const filepath = await this.generator.saveContentPackage(
         contentPackage,
-        outputDir
+        outputDir,
       );
       console.log(chalk.blue(`📁 内容包已保存到: ${filepath}`));
 
       // 7. 询问是否渲染视频
-      const shouldRender = options.render !== undefined ? options.render : await this.askRender();
-      
+      const shouldRender =
+        options.render !== undefined ? options.render : await this.askRender();
+
       if (shouldRender) {
         await this.renderVideo(contentPackage);
       } else {
-        console.log(chalk.yellow("\n💡 提示：你可以稍后使用以下命令渲染视频："));
-        console.log(chalk.cyan(`npx remotion render Postcard3D_${contentPackage.metadata.contentId} out/${contentPackage.metadata.contentId}.mp4`));
+        console.log(
+          chalk.yellow("\n💡 提示：你可以稍后使用以下命令渲染视频："),
+        );
+        console.log(
+          chalk.cyan(
+            `npx remotion render Postcard3D_${contentPackage.metadata.contentId} out/${contentPackage.metadata.contentId}.mp4`,
+          ),
+        );
       }
 
       // 8. 显示发布信息
       this.displayPublishInfo(contentPackage);
-
     } catch (error) {
       console.error(chalk.red("\n❌ 错误:"), error);
       process.exit(1);
@@ -123,7 +131,9 @@ class PostcardCLI {
     const validPlatforms = ["douyin", "wechat_channel", "youtube_shorts"];
 
     if (providedPlatforms) {
-      const invalid = providedPlatforms.filter(p => !validPlatforms.includes(p));
+      const invalid = providedPlatforms.filter(
+        (p) => !validPlatforms.includes(p),
+      );
       if (invalid.length > 0) {
         throw new Error(`无效的平台: ${invalid.join(", ")}`);
       }
@@ -161,10 +171,18 @@ class PostcardCLI {
     });
 
     console.log(chalk.cyan("\n🎨 视觉风格:"));
-    console.log(`   风格关键词: ${contentPackage.visualAndAudioSpec.styleKeywords.join(", ")}`);
-    console.log(`   动画情绪: ${contentPackage.visualAndAudioSpec.animationMood}`);
-    console.log(`   主色调: ${contentPackage.visualAndAudioSpec.colorPalette.primary}`);
-    console.log(`   辅助色: ${contentPackage.visualAndAudioSpec.colorPalette.secondary}`);
+    console.log(
+      `   风格关键词: ${contentPackage.visualAndAudioSpec.styleKeywords.join(", ")}`,
+    );
+    console.log(
+      `   动画情绪: ${contentPackage.visualAndAudioSpec.animationMood}`,
+    );
+    console.log(
+      `   主色调: ${contentPackage.visualAndAudioSpec.colorPalette.primary}`,
+    );
+    console.log(
+      `   辅助色: ${contentPackage.visualAndAudioSpec.colorPalette.secondary}`,
+    );
   }
 
   private async askRender(): Promise<boolean> {
@@ -180,17 +198,17 @@ class PostcardCLI {
 
   private async renderVideo(contentPackage: CompleteContentPackage) {
     const spinner = ora("正在渲染视频...").start();
-    
+
     // 这里应该调用 Remotion 的渲染 API
     // 由于这是一个示例，我们只是模拟渲染过程
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     spinner.succeed(chalk.green("✅ 视频渲染完成！"));
-    
+
     const outputPath = path.join(
       process.cwd(),
       "out",
-      `${contentPackage.metadata.contentId}.mp4`
+      `${contentPackage.metadata.contentId}.mp4`,
     );
     console.log(chalk.blue(`🎬 视频已保存到: ${outputPath}`));
   }
@@ -200,18 +218,30 @@ class PostcardCLI {
 
     if (contentPackage.metadata.targetPlatforms.includes("douyin")) {
       console.log(chalk.yellow("抖音发布:"));
-      console.log(`   标题: ${contentPackage.platformCopy.forDouyin.postTitle}`);
-      console.log(`   标签: ${contentPackage.platformCopy.forDouyin.hashtags.join(" ")}`);
-      console.log(`   互动: ${contentPackage.platformCopy.forDouyin.interactionPrompt}\n`);
+      console.log(
+        `   标题: ${contentPackage.platformCopy.forDouyin.postTitle}`,
+      );
+      console.log(
+        `   标签: ${contentPackage.platformCopy.forDouyin.hashtags.join(" ")}`,
+      );
+      console.log(
+        `   互动: ${contentPackage.platformCopy.forDouyin.interactionPrompt}\n`,
+      );
     }
 
     if (contentPackage.metadata.targetPlatforms.includes("wechat_channel")) {
       console.log(chalk.green("微信视频号发布:"));
-      console.log(`   标题: ${contentPackage.platformCopy.forWeChatChannel.postTitle}`);
-      console.log(`   标签: ${contentPackage.platformCopy.forWeChatChannel.hashtags.join(" ")}\n`);
+      console.log(
+        `   标题: ${contentPackage.platformCopy.forWeChatChannel.postTitle}`,
+      );
+      console.log(
+        `   标签: ${contentPackage.platformCopy.forWeChatChannel.hashtags.join(" ")}\n`,
+      );
     }
 
-    console.log(chalk.magenta("💡 提示: 内容包已保存，你可以随时重新加载并渲染视频！"));
+    console.log(
+      chalk.magenta("💡 提示: 内容包已保存，你可以随时重新加载并渲染视频！"),
+    );
   }
 }
 
@@ -257,7 +287,7 @@ yargs(hideBin(process.argv))
         outputDir: argv["output-dir"],
         render: argv.render,
       });
-    }
+    },
   )
   .demandCommand(1, "需要指定命令")
   .help()

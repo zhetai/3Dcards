@@ -22,23 +22,5 @@ Config.overrideWebpackConfig((currentConfiguration) => {
         buffer: false,
       },
     },
-    module: {
-      ...tailwindConfig.module,
-      rules: [
-        ...(tailwindConfig.module?.rules || []),
-        {
-          test: /\.(js|jsx|ts|tsx)$/,
-          use: {
-            loader: 'ts-loader',
-            options: {
-              transpileOnly: true,
-              compilerOptions: {
-                jsx: 'react-jsx',
-              },
-            },
-          },
-        },
-      ],
-    },
   };
 });

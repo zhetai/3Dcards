@@ -9,7 +9,9 @@ export class PostcardContentLoader {
   /**
    * 从文件加载内容包
    */
-  async loadContentPackage(filepath: string): Promise<import("./postcard-types").CompleteContentPackage> {
+  async loadContentPackage(
+    filepath: string,
+  ): Promise<import("./postcard-types").CompleteContentPackage> {
     const res = await fetch(staticFile(filepath));
     const content = await res.json();
     const parsedContent = content;

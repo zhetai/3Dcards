@@ -5,7 +5,9 @@ export const ContentMetadataSchema = z.object({
   contentId: z.string(),
   generationTimestamp: z.string(),
   sourceInspiration: z.string(),
-  targetPlatforms: z.array(z.enum(["douyin", "wechat_channel", "youtube_shorts"])),
+  targetPlatforms: z.array(
+    z.enum(["douyin", "wechat_channel", "youtube_shorts"]),
+  ),
 });
 
 export const CoreContentSchema = z.object({
@@ -39,7 +41,13 @@ export const ColorPaletteSchema = z.object({
 export const VisualAndAudioSpecSchema = z.object({
   styleKeywords: z.array(z.string()),
   colorPalette: ColorPaletteSchema,
-  animationMood: z.enum(["宁静舒缓", "深沉思考", "温柔治愈", "诗意流淌", "空灵神秘"]),
+  animationMood: z.enum([
+    "宁静舒缓",
+    "深沉思考",
+    "温柔治愈",
+    "诗意流淌",
+    "空灵神秘",
+  ]),
   musicSuggestion: z.string(),
 });
 
@@ -54,11 +62,15 @@ export const CompleteContentPackageSchema = z.object({
 export type ContentMetadata = z.infer<typeof ContentMetadataSchema>;
 export type CoreContent = z.infer<typeof CoreContentSchema>;
 export type PlatformCopyDouyin = z.infer<typeof PlatformCopyDouyinSchema>;
-export type PlatformCopyWeChatChannel = z.infer<typeof PlatformCopyWeChatChannelSchema>;
+export type PlatformCopyWeChatChannel = z.infer<
+  typeof PlatformCopyWeChatChannelSchema
+>;
 export type PlatformCopy = z.infer<typeof PlatformCopySchema>;
 export type ColorPalette = z.infer<typeof ColorPaletteSchema>;
 export type VisualAndAudioSpec = z.infer<typeof VisualAndAudioSpecSchema>;
-export type CompleteContentPackage = z.infer<typeof CompleteContentPackageSchema>;
+export type CompleteContentPackage = z.infer<
+  typeof CompleteContentPackageSchema
+>;
 
 // Remotion 组件 Props
 export const Postcard3DPropsSchema = z.object({

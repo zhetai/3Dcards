@@ -1,4 +1,8 @@
-import type { CompleteContentPackage, ContentMetadata, CoreContent } from "./postcard-types";
+import type {
+  CompleteContentPackage,
+  ContentMetadata,
+  CoreContent,
+} from "./postcard-types";
 import * as fs from "fs/promises";
 import * as path from "path";
 
@@ -23,7 +27,8 @@ export class PlatformPublisher {
       title: this.contentPackage.platformCopy.forDouyin.postTitle,
       description: this.contentPackage.coreContent.extendedDescription,
       hashtags: this.contentPackage.platformCopy.forDouyin.hashtags,
-      interactionPrompt: this.contentPackage.platformCopy.forDouyin.interactionPrompt,
+      interactionPrompt:
+        this.contentPackage.platformCopy.forDouyin.interactionPrompt,
       videoPath: this.videoPath,
       platform: "douyin" as const,
     };
@@ -75,11 +80,15 @@ export class PlatformPublisher {
       report.platforms.douyin = this.getDouyinPublishInfo();
     }
 
-    if (this.contentPackage.metadata.targetPlatforms.includes("wechat_channel")) {
+    if (
+      this.contentPackage.metadata.targetPlatforms.includes("wechat_channel")
+    ) {
       report.platforms.wechat_channel = this.getWeChatChannelPublishInfo();
     }
 
-    if (this.contentPackage.metadata.targetPlatforms.includes("youtube_shorts")) {
+    if (
+      this.contentPackage.metadata.targetPlatforms.includes("youtube_shorts")
+    ) {
       report.platforms.youtube_shorts = this.getYouTubeShortsPublishInfo();
     }
 
@@ -114,12 +123,17 @@ export class PlatformPublisher {
 视频文件: ${this.videoPath}
 `;
 
-      const douyinFile = path.join(outputDir, `${this.contentPackage.metadata.contentId}_douyin.txt`);
+      const douyinFile = path.join(
+        outputDir,
+        `${this.contentPackage.metadata.contentId}_douyin.txt`,
+      );
       await fs.writeFile(douyinFile, douyinText, "utf-8");
       files.push(douyinFile);
     }
 
-    if (this.contentPackage.metadata.targetPlatforms.includes("wechat_channel")) {
+    if (
+      this.contentPackage.metadata.targetPlatforms.includes("wechat_channel")
+    ) {
       const wechatInfo = this.getWeChatChannelPublishInfo();
       const wechatText = `【微信视频号发布文案】
 
@@ -133,7 +147,10 @@ export class PlatformPublisher {
 视频文件: ${this.videoPath}
 `;
 
-      const wechatFile = path.join(outputDir, `${this.contentPackage.metadata.contentId}_wechat.txt`);
+      const wechatFile = path.join(
+        outputDir,
+        `${this.contentPackage.metadata.contentId}_wechat.txt`,
+      );
       await fs.writeFile(wechatFile, wechatText, "utf-8");
       files.push(wechatFile);
     }
@@ -158,7 +175,9 @@ export class PlatformPublisher {
       console.log(`   互动: ${douyinInfo.interactionPrompt}\n`);
     }
 
-    if (this.contentPackage.metadata.targetPlatforms.includes("wechat_channel")) {
+    if (
+      this.contentPackage.metadata.targetPlatforms.includes("wechat_channel")
+    ) {
       const wechatInfo = this.getWeChatChannelPublishInfo();
       console.log("💬 微信视频号发布:");
       console.log(`   标题: ${wechatInfo.title}`);
@@ -166,7 +185,9 @@ export class PlatformPublisher {
       console.log(`   标签: ${wechatInfo.hashtags.join(" ")}\n`);
     }
 
-    if (this.contentPackage.metadata.targetPlatforms.includes("youtube_shorts")) {
+    if (
+      this.contentPackage.metadata.targetPlatforms.includes("youtube_shorts")
+    ) {
       const youtubeInfo = this.getYouTubeShortsPublishInfo();
       console.log("▶️  YouTube Shorts 发布:");
       console.log(`   标题: ${youtubeInfo.title}`);
@@ -183,7 +204,7 @@ export class PlatformPublisher {
  */
 export function createPublisher(
   contentPackage: CompleteContentPackage,
-  videoPath: string
+  videoPath: string,
 ): PlatformPublisher {
   return new PlatformPublisher(contentPackage, videoPath);
 }

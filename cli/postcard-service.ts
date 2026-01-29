@@ -18,7 +18,7 @@ export class PostcardContentGenerator {
    */
   async generateCompletePackage(
     inspiration: string,
-    platforms: string[] = ["douyin", "wechat_channel"]
+    platforms: string[] = ["douyin", "wechat_channel"],
   ): Promise<CompleteContentPackage> {
     const timestamp = new Date().toISOString();
     const contentId = this.generateContentId(inspiration, timestamp);
@@ -68,7 +68,8 @@ export class PostcardContentGenerator {
       parsedContent.metadata.targetPlatforms = platforms;
 
       // 验证数据结构
-      const validatedContent = CompleteContentPackageSchema.parse(parsedContent);
+      const validatedContent =
+        CompleteContentPackageSchema.parse(parsedContent);
 
       return validatedContent;
     } catch (error) {
@@ -86,7 +87,10 @@ export class PostcardContentGenerator {
       .update(inspiration)
       .digest("hex")
       .substring(0, 8);
-    const datePart = timestamp.replace(/[:-]/g, "").replace("T", "_").substring(0, 15);
+    const datePart = timestamp
+      .replace(/[:-]/g, "")
+      .replace("T", "_")
+      .substring(0, 15);
     return `${datePart}_${hash}`;
   }
 
@@ -95,7 +99,7 @@ export class PostcardContentGenerator {
    */
   async saveContentPackage(
     contentPackage: CompleteContentPackage,
-    outputDir: string
+    outputDir: string,
   ): Promise<string> {
     const fs = await import("fs/promises");
     const path = await import("path");
@@ -104,7 +108,11 @@ export class PostcardContentGenerator {
     const filepath = path.join(outputDir, filename);
 
     await fs.mkdir(outputDir, { recursive: true });
-    await fs.writeFile(filepath, JSON.stringify(contentPackage, null, 2), "utf-8");
+    await fs.writeFile(
+      filepath,
+      JSON.stringify(contentPackage, null, 2),
+      "utf-8",
+    );
 
     return filepath;
   }
@@ -124,6 +132,8 @@ export class PostcardContentGenerator {
 /**
  * 工厂函数：创建内容生成器
  */
-export function createContentGenerator(apiKey: string): PostcardContentGenerator {
+export function createContentGenerator(
+  apiKey: string,
+): PostcardContentGenerator {
   return new PostcardContentGenerator(apiKey);
 }
